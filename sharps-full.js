@@ -116,11 +116,11 @@ var Sharps = (function () {
                 var arr = n.children;
                 for (var j = 0; j < arr.length; j++) {
                     var pi = arr[j];
-                    assertEq(pi.type, TOK.PROPERTY_INIT);
+                    //assertEq(pi.type, TOK.PROPERTY_INIT);
                     var pair = pi.children;
-                    assertEq(pair.length, 2);
+                    //assertEq(pair.length, 2);
                     var id = pair[0], expr = pair[1];
-                    assertEq(id.type, TOK.IDENTIFIER);
+                    //assertEq(id.type, TOK.IDENTIFIER);
                     if (expr.type === TOK.SHARPREF) {
                         if (sharpVars[expr.value] === undefined)
                             throw new SyntaxError("Sharp variable used before definition");

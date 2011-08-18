@@ -83,7 +83,7 @@ serialization library that mostly produces human-readable strings.
 
 # Contributors
 
-sharps-lite.js, sharps-full.js, and uneval.js are by Jason Orendorff.
+sharps-lite.js and sharps-full.js are by Jason Orendorff.
 
 Narcissus contributors include:
 
@@ -96,3 +96,7 @@ Narcissus contributors include:
 * Gregor Richards
 * Dimitris Vardoulakis
 * Patrick Walton
+
+uneval.js is based on parts of the SpiderMonkey JS engine that I think were
+developed mainly by Brendan Eich and Igor Bukanov. It was ported from C++ to JS
+by Jason Orendorff.

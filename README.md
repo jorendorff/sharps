@@ -46,9 +46,44 @@ Since sharps-full.js contains a full JS parser, based on Narcissus, it is much
 much larger than sharps-lite.js. It requires the 3000+ lines of code in the lib
 directory.
 
+# uneval.js
+
+This is an implementation of Mozilla's uneval function and .toSource() methods
+in pure ES5.
+
+uneval is nonstandard and until now only worked in Firefox. It's quite useful
+for error messages and debugging at least. uneval(x) tries to return a string
+that evals to x.
+
+   uneval(2) ==> "2"
+   unveal(null) ==> "null"
+   uneval({a: 1, b: 2}) ==> "({a: 1, b: 2})"
+   uneval(new Date(2011, 8, 18)) ==> "(new Date(1316322000000))"
+
+If you uneval an object that has a .toSource() method, it calls the method.
+
+    function Pair(a, b) {
+        this.first = a;
+        this.second = b;
+    }
+    Pair.prototype.toSource = function () {
+        return "new Pair(" + uneval(this.first) + ", " + uneval(this.second) + ")";
+    };
+
+    uneval(new Pair('live long', 'prosper'))
+        ==> "new Pair(\"live long\", \"prosper\")"
+
+If you pass uneval a cyclic object, it produces output using sharp-object
+syntax. So uneval.js can combine with sharps-full.js to make a simple, flexible
+serialization library that mostly produces human-readable strings.
+
+    var p = {}, c = {parent: p};
+    p.child = c;
+    uneval(p) ==> "#1={child:{parent:#1#}}"
+
 # Contributors
 
-sharps-lite.js and sharps-full.js are by Jason Orendorff.
+sharps-lite.js, sharps-full.js, and uneval.js are by Jason Orendorff.
 
 Narcissus contributors include:
 

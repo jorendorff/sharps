@@ -1,4 +1,7 @@
-// uneval.js - ES5 implementation of uneval and obj.toSource().
+/* -*- Mode: JavaScript; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*-
+ *
+ * uneval.js - ES5 implementation of uneval and obj.toSource().
+ */
 
 (function (global) {
     "use strict";
@@ -32,29 +35,29 @@
     // Pure-ES5 implementation of Map for JS implementations that don't have
     // WeakMap.
     function Map() { 
-	this.keys = [];
-	this.vals = [];
+        this.keys = [];
+        this.vals = [];
     }
     Map.prototype.get = function (key) {
-	var keys = this.keys, n = keys.length;
-	for (var i = 0; i < n; i++) {
-	    if (keys[i] === key)
-		return this.vals[i];
-	}
-	return undefined;
+        var keys = this.keys, n = keys.length;
+        for (var i = 0; i < n; i++) {
+            if (keys[i] === key)
+                return this.vals[i];
+        }
+        return undefined;
     };
     Map.prototype.set = function (key, val) {
-	var keys = this.keys, n = keys.length;
-	for (var i = 0; i < n; i++) {
-	    if (keys[i] === key)
-		break;
-	}
-	this.vals[i] = val;
+        var keys = this.keys, n = keys.length;
+        for (var i = 0; i < n; i++) {
+            if (keys[i] === key)
+                break;
+        }
+        this.vals[i] = val;
     };
 
     // If the implementation provides WeakMap, that will be faster.
     if (typeof WeakMap === 'function')
-	Map = WeakMap;
+        Map = WeakMap;
 
     function IsObject(v) {
         return v !== null && (typeof v === 'object' || typeof v === 'function' || typeof v === 'xml');
@@ -282,7 +285,8 @@
 
         obj = ToObject(obj);
 
-        var [he, props, sharpchars] = EnterSharpObject(obj);
+        var rec = EnterSharpObject(obj)
+        var he = rec[0], props = rec[1], sharpchars = rec[2];
 
         /*
          * If he.isSharp, we didn't enter -- obj is already "sharp", meaning we've visited it
@@ -423,7 +427,8 @@
         }
 
         /* Find joins or cycles in the reachable object graph. */
-        var [he, , sharpchars] = EnterSharpObject(obj);
+        var rec = EnterSharpObject(obj);
+        var he = rec[0], sharpchars = rec[2];
         var initiallySharp = he.isSharp;
 
         try {
@@ -453,7 +458,7 @@
     }
 
     function def(obj, name, fn) {
-	Object.defineProperty(obj, name, {configurable: true, enumerable: false, writable: true, value: fn});
+        Object.defineProperty(obj, name, {configurable: true, enumerable: false, writable: true, value: fn});
     }
 
     def(global, 'uneval', function uneval(v) { return ValueToSource(v); });

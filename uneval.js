@@ -156,7 +156,9 @@
                  */
                 sharpObjectDepth++;
                 try {
-                    [he, props] = MarkSharpObjects(obj);
+                    var x = MarkSharpObjects(obj);
+                    he = x[0];
+                    props = x[1];
                 } finally {
                     sharpObjectDepth--;
                 }
